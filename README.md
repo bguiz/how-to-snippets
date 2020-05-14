@@ -23,6 +23,29 @@ A collection of snippets on how to do various computer-y things.
   git push origin my-2nd-branch
   ```
 
+### ImageMagick
+
+#### Create a sprite sheet from a folder of images
+
+```bash
+# Rename original files to have a `frame-` prefix,
+# followed by a 3 digit sequential number
+I=0 ; for F in Original*.png ; do printf -v PADDEDI "%03d" ${I} ; cp "${F}" "frame-${PADDEDI}.png" ; (( I++ )) ; done
+
+# Use `convert -crop` from ImageMagick v6 to get just part of the picture
+# WxH+X+Y : ${width}x${height}+${xOffset}+${yOffset}
+# You have to work out these values manually
+for F in frame-*.png ; do convert "${F}" -crop 1280x468+60+312 "foobar-${F%.png}-cropped.png" ; done
+
+# Use `montage` to concatenate all images into a single file
+# in a horizontal row
+# `-resize` is to scale the picture to be smaller
+# `-tile` used in this way is what tells it to be horizontal:
+# ${numColumns}x${numRows}
+# `-geometry` used this way makes it not leave any gaps
+montage -resize 70% foobar-frame-*.png -tile $( ls foobar-frame-*.png | wc -l )x1 -geometry +0+0 foobar-sprite.png
+```
+
 ## Licence
 
 GPL-3.0

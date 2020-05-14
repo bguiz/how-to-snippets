@@ -46,6 +46,67 @@ for F in frame-*.png ; do convert "${F}" -crop 1280x468+60+312 "foobar-${F%.png}
 montage -resize 70% foobar-frame-*.png -tile $( ls foobar-frame-*.png | wc -l )x1 -geometry +0+0 foobar-sprite.png
 ```
 
+### CSS
+
+#### Create a frame based animation using a sprite sheet image
+
+```html
+<div class="sprite-transform-animation-wrapper foobar">
+  <div class="sprite-transform-animation foobar"></div>
+</div>
+```
+
+```css
+.sprite-transform-animation-wrapper {
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  min-height: 386px;
+}
+
+.sprite-transform-animation {
+  height: 100%;
+  background-size: 100%, 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+```
+
+- Do some math:
+  - `width` is number of frames multiplied by 100%
+  - `animation-timing-function` is number of frames minus 1
+
+```css
+.sprite-transform-animation.foobar {
+  width: 1000%;
+  background-image: url('foobar-sprite.png');
+  animation-name: sprite-transform-animation-keyframes-foobar;
+  animation-duration: 10s;
+  animation-timing-function: steps(9);
+  animation-iteration-count: infinite;
+}
+
+```
+
+- Do some more math:
+  - the `to` `transform` is (number of frames minus 1) divided by (number of frames) multiplied by 100%
+
+```css
+@keyframes sprite-transform-animation-keyframes-foobar {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-90%);
+  }
+}
+
+```
+
 ## Licence
 
 GPL-3.0

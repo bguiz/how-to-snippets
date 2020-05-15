@@ -107,6 +107,17 @@ montage -resize 70% foobar-frame-*.png -tile $( ls foobar-frame-*.png | wc -l )x
 
 ```
 
+### Javascript
+
+#### Left pad
+
+```javascript
+String(5).padStart(5, '0');
+// '00005'
+```
+
+- Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart
+
 ## Licence
 
 GPL-3.0

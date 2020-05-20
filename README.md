@@ -118,6 +118,23 @@ String(5).padStart(5, '0');
 
 - Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart
 
+### Shell
+
+#### Find biggest files within a folder
+
+```bash
+ls -1Rhs $( find ${HOME} -type f -printf "%s - %p\n" | sort -n | tail -n 20 | awk '/^.* - /{print $NF}' )
+```
+
+- Replace `${HOME}` with your target directory.
+- Replace `20` with your desired file count
+- How it works:
+  - `find` iterates over all files recursively, and here we're telling it to print the size followed by the file name
+  - `sort` to arrange them in order of smallest to largest
+  - `tail` to only grab the last few, that is the largest
+  - `awk` to remove the file size, only have the file names now
+  - `ls` wraps around the output to put the file sizes back in, but in a human readable form, e.g. `2604202398` --> `2.5G`
+
 ## Licence
 
 GPL-3.0

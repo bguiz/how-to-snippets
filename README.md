@@ -36,6 +36,34 @@ git diff --name-status $( git merge-base origin/master HEAD ) HEAD
 git diff --stat $( git merge-base origin/master HEAD ) HEAD
 ```
 
+### Patch a subset of changes from one branch on another
+
+The following gets the latest 3 commits on the current branch from
+2 particular files or folders into another branch,
+using `patch` as an in-between.
+
+```shell
+# create the patch file
+git diff HEAD~3 HEAD -- file-or-folder-1 file-or-folder-2 > patch-$( date "+%Y%m%d" ).diff
+
+# switch to the target branch
+git checkout another-branch
+
+# perform a dry run to identify any potential merge conflicts
+# no files will be overwritten by this
+patch -p1 --dry-run < patch-$( date "+%Y%m%d" ).md
+
+# overwrite the files
+patch -p1  < patch-$( date "+%Y%m%d" ).md
+
+# selectively add parts of the patch, using git add interactively
+git add -p file-or-folder-1 file-or-folder-2
+
+# discard the parts that you did not select
+git checkout -- file-or-folder-1 file-or-folder-2
+
+```
+
 ### ImageMagick
 
 #### Create a sprite sheet from a folder of images

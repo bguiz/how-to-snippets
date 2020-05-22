@@ -23,6 +23,19 @@ A collection of snippets on how to do various computer-y things.
   git push origin my-2nd-branch
   ```
 
+#### List all files that have changed since branching from master
+
+```shell
+# show each of the files, names only
+git diff --name-only $( git merge-base origin/master HEAD ) HEAD
+
+# show each of the files with a status (M: modified, A: Added, etc)
+git diff --name-status $( git merge-base origin/master HEAD ) HEAD
+
+# show each of the files with number of lines added/ removed
+git diff --stat $( git merge-base origin/master HEAD ) HEAD
+```
+
 ### ImageMagick
 
 #### Create a sprite sheet from a folder of images

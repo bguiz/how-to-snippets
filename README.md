@@ -159,6 +159,12 @@ String(5).padStart(5, '0');
 
 - Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart
 
+#### Capitalise first letter
+
+```javascript
+str.charAt(0).toUpperCase() + str.slice(1);
+```
+
 ### Shell
 
 #### Find biggest files within a folder

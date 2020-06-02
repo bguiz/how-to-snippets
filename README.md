@@ -165,6 +165,27 @@ String(5).padStart(5, '0');
 str.charAt(0).toUpperCase() + str.slice(1);
 ```
 
+### Browser JS
+
+#### Replace a DOM element with a new one
+
+```javascript
+var originalElement = document.querySelector('.original');
+var newElement = document.createElement('div');
+// populate `newElement` with attributes/ contents
+originalElement.replaceWith(newElement);
+```
+
+Check [compatibility](https://caniuse.com/#search=replaceWith),
+otherwise fall back on:
+
+```javascript
+var originalElement = document.querySelector('.original');
+var newElement = document.createElement('div');
+// populate `newElement` with attributes/ contents
+originalElement.parentNode.replaceChild(newElement, originalElement);
+```
+
 ### Shell
 
 #### Find biggest files within a folder

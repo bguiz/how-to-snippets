@@ -203,6 +203,35 @@ ls -1Rhs $( find ${HOME} -type f -printf "%s - %p\n" | sort -n | tail -n 20 | aw
   - `awk` to remove the file size, only have the file names now
   - `ls` wraps around the output to put the file sizes back in, but in a human readable form, e.g. `2604202398` --> `2.5G`
 
+#### Extract subdirectory within tar gz archive into subdirectory on disk
+
+```shell
+mkdir -p ./foo/bar/baz/
+tar \
+  -C ./foo/bar/baz/ \
+  -xvf foo-1.2.3.tar.gz foo-1.2.3/quux \
+  --strip-components=2
+```
+
+Notes:
+
+- you must `mkdir` first, `tar` will not create a directory for you
+- the `-C` option tells tar where to extract to
+  - this is the subdirectory on disk
+  - note that this *must* come before the `-xvf` option,
+    the order is significant
+- `-xvf` is for *extract*, *verbose*, *file name*
+  - the first thing that comes after this is the archive file name
+  - the second thing that comes after this, which is optional,
+    is the subdirectory within the archive file
+- `--strip-components` should be set to the number of levels in the
+  subdirectory within the archive
+  - if not set, the subdirectory on disk will contain further
+    subdirectories within it that match those within the archive,
+    which *probably* is not what you want.
+- use `tar -tvf foo-1.2.3.tar.gz` to see a full file listing,
+  in order to determine the values needed above
+
 ## Licence
 
 GPL-3.0

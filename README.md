@@ -232,6 +232,14 @@ Notes:
 - use `tar -tvf foo-1.2.3.tar.gz` to see a full file listing,
   in order to determine the values needed above
 
+#### Obtain DNS records
+
+```shell
+dig ${DOMAIN} +nostats +nocmd +nocomments
+```
+
+- the default output of dig typically contains a bunch of ifno that you probably are not interested in, so these options help you to narrow it down
+
 ## Licence
 
 GPL-3.0

@@ -240,7 +240,7 @@ dig ${DOMAIN} +nostats +nocmd +nocomments
 
 - the default output of dig typically contains a bunch of ifno that you probably are not interested in, so these options help you to narrow it down
 
-#### List all files recursively
+#### List all files (recursively)
 
 While `tree` is a handy tool for visual inspection of a directory,
 for batch processing purposes,
@@ -259,6 +259,23 @@ find . -type f \
   -not -path "./.git/*" \
   -print
 ```
+
+#### List all file extensions (recursively)
+
+Use the commands to list all files recursively,
+and add `sed` and `sort`, like so:
+
+```shell
+find . -type f \
+  -not -path "./node_modules/*" \
+  -not -path "./.git/*" \
+  -print \
+  | sed 's|.*\.||' \
+  | sort -u
+```
+
+Here, `sed` is used to extract the file extensions (if present),
+and `sort` is used to remove duplicates from the list (`-u` for unique).
 
 ## Licence
 

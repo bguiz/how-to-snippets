@@ -240,6 +240,26 @@ dig ${DOMAIN} +nostats +nocmd +nocomments
 
 - the default output of dig typically contains a bunch of ifno that you probably are not interested in, so these options help you to narrow it down
 
+#### List all files recursively
+
+While `tree` is a handy tool for visual inspection of a directory,
+for batch processing purposes,
+you may need to list the full path of the files.
+
+```shell
+find . -type f -print
+```
+
+If you wish to exclude certain paths, use `-not -path`.
+The following excludes `.git` and `node_modules` sub directories:
+
+```shell
+find . -type f \
+  -not -path "./node_modules/*" \
+  -not -path "./.git/*" \
+  -print
+```
+
 ## Licence
 
 GPL-3.0

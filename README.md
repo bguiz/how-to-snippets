@@ -301,6 +301,58 @@ ffmpeg \
 - The audio input is simply whatever is the default for your machine,
   that is selected in system settings.
 
+#### Record your screen, microphone, and speakers
+
+If you wish to record both microphone and speakers,
+you will need to define two audio input sources,
+and mux them.
+
+To determine what devices you have,
+ask pulse audio to list them,
+and filter for the summary of what you need.
+
+The default input source should have an `*`
+in front of its `index`.`
+This is what gets used when you specify `-f pulse -i default`.
+
+```shell
+pacmd list-sources \
+  | grep '\(index\:\|name\:\|device\.description\)'
+```
+
+From this list, copy the `name`s of:
+
+- One `alsa_input` which is represents your microphone, and
+- one `alsa_output` which is represents your speakers.
+
+Use them in the following command:
+
+```shell
+ffmpeg \
+  -f pulse \
+  -ac 2 \
+  -ar 22050 \
+  -i "alsa_output.pci-0000_00_1f.3.analog-stereo.monitor" \
+  -f pulse \
+  -ac 2 \
+  -ar 22050 \
+  -i "alsa_input.pci-0000_00_1f.4.analog-stereo" \
+  -filter_complex amix=inputs=2 \
+  -video_size 1280x1050 \
+  -framerate 20 \
+  -f x11grab \
+  -i :0.0+1280,30 \
+  rec-02.mp4
+```
+
+Comparison to the command for "record your screen and microphone".
+
+- This time there are a total of 3 inputs (`-i`),
+  2 for audio, and 1 for video.
+- There is an additional flag for `-filter_complex amix=inputs=2`,
+  which is reponsible for the mux,
+  converting the 2 audio streams into a single one.
+
 ## Licence
 
 GPL-3.0

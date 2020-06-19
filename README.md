@@ -277,6 +277,30 @@ find . -type f \
 Here, `sed` is used to extract the file extensions (if present),
 and `sort` is used to remove duplicates from the list (`-u` for unique).
 
+### FFmpeg
+
+#### Record your screen and microphone
+
+Assuming that your screen dimensions are `2560x1080` pixels,
+and you want to trim off the `30` pixels from the top of the screen.
+
+```shell
+ffmpeg \
+  -video_size 2560x1050 \
+  -framerate 20 \
+  -f x11grab \
+  -i :0.0+0,30 \
+  -f pulse \
+  -i default \
+  -ac 2 \
+  rec-01.mp4
+```
+
+- To select the appropriate part of the screen,
+  `-video_size 2560x1050` is used in conjunction with `-i :0.0+0,30`.
+- The audio input is simply whatever is the default for your machine,
+  that is selected in system settings.
+
 ## Licence
 
 GPL-3.0

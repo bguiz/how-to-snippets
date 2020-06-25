@@ -186,6 +186,55 @@ var newElement = document.createElement('div');
 originalElement.parentNode.replaceChild(newElement, originalElement);
 ```
 
+#### Insert a DOM element before or after another one
+
+Add this helper function:
+
+```javascript
+function insertDomNodeRelativeTo(node, newNode, isAfter) {
+  if (isAfter) {
+    if (node.nextSibling) {
+      // newNode will be after node, and before node's current next node
+      node.parentNode.insertBefore(
+        newNode,
+        node.nextSibling,
+      );
+    } else {
+      // newNode is after node, but node is the last child
+      node.parentNode.appendChild(newNode);
+    }
+  } else {
+    // newNode is before node
+    node.parentNode.insertBefore(
+      newNode,
+      node,
+    );
+  }
+}
+```
+
+Example usage:
+
+```javascript
+const middle = document.querySelector('.middle');
+middle.textContent = 'middle';
+const before = document.createElement('div');
+before.textContent = 'before';
+const after = document.createElement('div');
+after.textContent = 'after';
+insertDomNodeRelativeTo(middle, before, false);
+insertDomNodeRelativeTo(middle, after, true);
+```
+
+Assuming that there is an element with a class of `middle`
+already on the page, this should result in a display similar to:
+
+```
+before
+middle
+after
+```
+
 ### Shell
 
 #### Find biggest files within a folder
